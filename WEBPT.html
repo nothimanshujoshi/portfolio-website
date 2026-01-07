@@ -1,0 +1,403 @@
+<style>
+    /* --- IMPORTS & FONTS --- */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+
+    :root {
+        --bg-color: #ffffff;
+        --bg-secondary: #f8f9fc;
+        --text-main: #1a1b1f;
+        --text-light: #6b7280;
+        --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #9333ea 100%);
+        --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.05);
+        --shadow-hover: 0 30px 60px rgba(79, 70, 229, 0.15);
+    }
+
+    /* --- 1. CURSOR CSS (MOUSE SETTINGS) --- */
+    * { cursor: none !important; } /* Hide Default Mouse */
+
+    .cursor-dot,
+    .cursor-outline {
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+    .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: var(--text-main);
+    }
+
+    .cursor-outline {
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        transition: width 0.2s, height 0.2s, background-color 0.2s;
+    }
+
+    /* Jab Cursor kisi cheez par hover karega */
+    body.hovering .cursor-outline {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(79, 70, 229, 0.1);
+        border-color: #4f46e5;
+    }
+
+    /* Elementor Reset */
+    .elementor-widget-html { background-color: var(--bg-color); }
+
+    body, .main-wrapper {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
+        line-height: 1.6;
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    /* --- ANIMATED BACKGROUND BLOB --- */
+    .blob-cont {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+        z-index: 0; pointer-events: none; overflow: hidden;
+    }
+    .blob {
+        position: absolute; top: -10%; right: -10%; width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(236, 230, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+        border-radius: 50%; animation: floatBlob 10s infinite alternate ease-in-out;
+    }
+    .blob-2 {
+        position: absolute; bottom: -10%; left: -10%; width: 500px; height: 500px;
+        background: radial-gradient(circle, rgba(224, 242, 254, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+        border-radius: 50%; animation: floatBlob 15s infinite alternate-reverse ease-in-out;
+    }
+    @keyframes floatBlob {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(30px, 50px) scale(1.1); }
+    }
+
+    .container-x {
+        max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 2;
+    }
+
+    /* Typography & Utilities */
+    h1, h2, h3 { color: var(--text-main); line-height: 1.2; }
+    .serif { font-family: 'Playfair Display', serif; font-style: italic; color: #4f46e5; }
+    
+    .section-tag {
+        display: inline-block; font-size: 0.85rem; font-weight: 700;
+        letter-spacing: 2px; text-transform: uppercase;
+        background: rgba(79, 70, 229, 0.1); color: #4f46e5;
+        padding: 8px 16px; border-radius: 50px; margin-bottom: 20px;
+    }
+
+    /* Navbar */
+    .nav-glass {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 20px 0; margin-bottom: 40px;
+    }
+    .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+    .logo span { color: #4f46e5; }
+    
+    .btn-primary {
+        background: var(--text-main); color: white; padding: 12px 30px;
+        border-radius: 50px; text-decoration: none; font-weight: 600;
+        transition: 0.3s; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .btn-primary:hover {
+        background: #4f46e5; transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(79, 70, 229, 0.3);
+    }
+
+    /* Hero Section */
+    .hero-sec { padding: 80px 0; display: flex; align-items: center; gap: 50px; }
+    .hero-content { flex: 1.2; }
+    .hero-title { font-size: 4.5rem; font-weight: 800; margin-bottom: 24px; letter-spacing: -2px; }
+    .hero-desc { font-size: 1.25rem; color: var(--text-light); margin-bottom: 40px; max-width: 500px; }
+    .hero-image-box { flex: 1; position: relative; }
+    .profile-card {
+        width: 100%; height: 500px; background: white; border-radius: 30px;
+        overflow: hidden; box-shadow: var(--shadow-soft); position: relative;
+        transform: rotate(-3deg); transition: 0.5s;
+    }
+    .profile-card:hover { transform: rotate(0deg) scale(1.02); }
+    .profile-card img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Skills Ticker */
+    .ticker-wrap {
+        width: 100%; background: var(--bg-secondary); padding: 30px 0;
+        overflow: hidden; margin: 60px 0; transform: skewY(-2deg);
+    }
+    .ticker { white-space: nowrap; display: inline-block; animation: ticker 20s linear infinite; }
+    .ticker-item {
+        display: inline-block; font-size: 3rem; font-weight: 800;
+        color: rgba(0,0,0,0.05); margin: 0 40px; text-transform: uppercase;
+    }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* --- 2. NEW AESTHETIC "WHAT I DO" SECTION --- */
+    .services-sec { 
+        padding: 100px 0; 
+    }
+    
+    .service-container {
+        display: flex;
+        gap: 20px;
+        height: 400px; /* Fixed height for interaction */
+        margin-top: 40px;
+    }
+
+    .s-card {
+        flex: 1; /* Default size */
+        background: #f4f4f5;
+        border-radius: 30px;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    /* EXPAND EFFECT */
+    .s-card:hover {
+        flex: 3; /* Hover pe 3x bada ho jayega */
+        background: #1a1b1f; /* Dark Mode active */
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    .s-num {
+        font-size: 4rem; font-weight: 800; color: #e5e7eb;
+        position: absolute; top: 20px; right: 30px; transition: 0.4s;
+    }
+    .s-title {
+        font-size: 1.8rem; font-weight: 700; margin-bottom: 10px;
+        color: var(--text-main); white-space: nowrap; transition: 0.4s;
+    }
+    .s-desc {
+        color: #aaa; opacity: 0; transform: translateY(20px);
+        transition: 0.4s 0.1s; max-width: 400px; font-size: 1rem; line-height: 1.6;
+    }
+
+    /* Hover State Changes */
+    .s-card:hover .s-num { color: rgba(255,255,255,0.1); }
+    .s-card:hover .s-title { color: white; font-size: 2.2rem; margin-bottom: 20px; }
+    .s-card:hover .s-desc { opacity: 1; transform: translateY(0); }
+    
+    /* Gradient Overlay */
+    .s-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%);
+        opacity: 0; transition: 0.6s; z-index: 0;
+    }
+    .s-card:hover .s-overlay { opacity: 0.15; }
+    .s-content { position: relative; z-index: 1; }
+
+    /* Portfolio Grid */
+    .work-sec { padding: 50px 0; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; margin-top: 60px; }
+    .project-card {
+        background: white; border-radius: 24px; padding: 20px;
+        box-shadow: var(--shadow-soft); transition: 0.4s;
+    }
+    .project-card:hover { transform: translateY(-15px); box-shadow: var(--shadow-hover); }
+    .p-img { height: 300px; width: 100%; border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
+    .p-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+    .project-card:hover .p-img img { transform: scale(1.1); }
+    .p-cat { color: #4f46e5; font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; }
+    .p-title { font-size: 1.8rem; margin: 10px 0; font-weight: 700; }
+    .p-desc { color: var(--text-light); margin-bottom: 20px; }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .hero-sec { flex-direction: column-reverse; text-align: center; padding-top: 40px; }
+        .hero-title { font-size: 2.8rem; }
+        .hero-image-box { width: 100%; }
+        .profile-card { height: 350px; transform: rotate(0); }
+        .grid-2 { grid-template-columns: 1fr; }
+        
+        /* Mobile Stack for Services */
+        .service-container { flex-direction: column; height: auto; }
+        .s-card { height: 250px; }
+        .s-card:hover { flex: 1; background: #f4f4f5; box-shadow: none; }
+        .s-card:hover .s-title { color: var(--text-main); }
+        .s-desc { opacity: 1; transform: translateY(0); }
+        .cursor-dot, .cursor-outline { display: none; } /* Mobile me custom cursor off */
+        * { cursor: auto !important; }
+    }
+</style>
+
+<div class="main-wrapper">
+    
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    
+    <div class="blob-cont">
+        <div class="blob"></div>
+        <div class="blob-2"></div>
+    </div>
+
+    <div class="container-x">
+        
+        <nav class="nav-glass">
+            <div class="logo">Himanshu<span style="color: #4f46e5;">.</span></div>
+            <a href="#contact" class="btn-primary" data-cursor="hover">Let's Talk</a>
+        </nav>
+
+        <section class="hero-sec">
+            <div class="hero-content">
+                <span class="section-tag">Digital Designer</span>
+                <h1 class="hero-title">I Design <br><span class="serif">Beautiful</span> Business <br>Websites.</h1>
+                <p class="hero-desc">Hi, I'm Himanshu. I specialize in building high-conversion E-commerce stores and clean business websites that look premium.</p>
+                <a href="#work" class="btn-primary" data-cursor="hover">See My Work</a>
+            </div>
+            
+            <div class="hero-image-box">
+                <div class="profile-card" data-cursor="hover">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=1000&auto=format&fit=crop" alt="Profile">
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <div class="ticker-item">E-Commerce Design • UI/UX • Shopify • WordPress • Elementor Pro • Webflow •</div>
+            <div class="ticker-item">E-Commerce Design • UI/UX • Shopify • WordPress • Elementor Pro • Webflow •</div>
+        </div>
+    </div>
+
+    <div class="container-x">
+        
+        <section class="services-sec">
+            <div style="text-align: center;">
+                <h2 style="font-size: 2.5rem; font-weight: 800;">My Expertise</h2>
+                <p style="color: var(--text-light);">Services designed to grow your business.</p>
+            </div>
+            
+            <div class="service-container">
+                
+                <div class="s-card" data-cursor="hover">
+                    <div class="s-overlay"></div>
+                    <div class="s-content">
+                        <span class="s-num">01</span>
+                        <h3 class="s-title">E-Commerce</h3>
+                        <p class="s-desc">I build Shopify & Woo-Commerce stores that are scientifically designed to convert visitors into buyers using modern UI principles.</p>
+                    </div>
+                </div>
+
+                <div class="s-card" data-cursor="hover">
+                    <div class="s-overlay"></div>
+                    <div class="s-content">
+                        <span class="s-num">02</span>
+                        <h3 class="s-title">Business Sites</h3>
+                        <p class="s-desc">From portfolios to corporate sites, I code clean, fast, and responsive websites that establish authority and trust.</p>
+                    </div>
+                </div>
+
+                <div class="s-card" data-cursor="hover">
+                    <div class="s-overlay"></div>
+                    <div class="s-content">
+                        <span class="s-num">03</span>
+                        <h3 class="s-title">UI/UX Design</h3>
+                        <p class="s-desc">Modern layouts, smooth animations, and perfect typography. It's not just about looks, it's about how it feels.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="work" class="work-sec">
+            <span class="section-tag">Portfolio</span>
+            <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 20px;">Selected Work</h2>
+            
+            <div class="grid-2">
+                <div class="project-card" data-cursor="hover">
+                    <div class="p-img">
+                        <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1000&auto=format&fit=crop" alt="Store">
+                    </div>
+                    <div class="p-cat">E-Commerce</div>
+                    <h3 class="p-title">Modern Fashion Store</h3>
+                    <p class="p-desc">A minimal Shopify store design for a premium clothing brand.</p>
+                    <a href="#" style="color: #4f46e5; font-weight: 700; text-decoration: none;">View Project &rarr;</a>
+                </div>
+
+                <div class="project-card" data-cursor="hover">
+                    <div class="p-img">
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop" alt="Business">
+                    </div>
+                    <div class="p-cat">Corporate Website</div>
+                    <h3 class="p-title">Tech Agency</h3>
+                    <p class="p-desc">Corporate website for a marketing agency with smooth animations.</p>
+                    <a href="#" style="color: #4f46e5; font-weight: 700; text-decoration: none;">View Project &rarr;</a>
+                </div>
+
+                <div class="project-card" data-cursor="hover">
+                    <div class="p-img">
+                        <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1000&auto=format&fit=crop" alt="Product">
+                    </div>
+                    <div class="p-cat">Landing Page</div>
+                    <h3 class="p-title">Product Launch</h3>
+                    <p class="p-desc">High-conversion landing page for a new smart gadget.</p>
+                    <a href="#" style="color: #4f46e5; font-weight: 700; text-decoration: none;">View Project &rarr;</a>
+                </div>
+
+                <div class="project-card" data-cursor="hover">
+                    <div class="p-img">
+                        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1000&auto=format&fit=crop" alt="Agency">
+                    </div>
+                    <div class="p-cat">Web Design</div>
+                    <h3 class="p-title">Travel Startup</h3>
+                    <p class="p-desc">Vibrant and adventurous website design for a travel company.</p>
+                    <a href="#" style="color: #4f46e5; font-weight: 700; text-decoration: none;">View Project &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact" style="text-align: center; padding: 100px 0;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Need a beautiful website?</h2>
+            <p style="margin-bottom: 40px; color: #666;">Let's create something professional together.</p>
+            <a href="mailto:himanshu@email.com" class="btn-primary" style="font-size: 1.2rem; padding: 15px 40px;" data-cursor="hover">Email Me</a>
+            <p style="margin-top: 60px; font-size: 0.9rem; color: #ccc;">© 2026 Himanshu Joshi. All Rights Reserved.</p>
+        </footer>
+
+    </div>
+</div>
+
+<script>
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+    const body = document.querySelector('body');
+
+    // Mouse Movement
+    window.addEventListener('mousemove', function(e) {
+        const posX = e.clientX;
+        const posY = e.clientY;
+
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+
+        // Slight delay for outline smooth effect
+        cursorOutline.animate({
+            left: `${posX}px`,
+            top: `${posY}px`
+        }, { duration: 500, fill: "forwards" });
+    });
+
+    // Hover Magnet Effect
+    const hoverElements = document.querySelectorAll('a, button, .s-card, .project-card, .btn-primary, .profile-card, [data-cursor="hover"]');
+
+    hoverElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            body.classList.add('hovering');
+        });
+        el.addEventListener('mouseleave', () => {
+            body.classList.remove('hovering');
+        });
+    });
+</script>
